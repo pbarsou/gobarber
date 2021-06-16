@@ -1,0 +1,13 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+end_of_line = lf # /n tanto pra windows quanto pra linux
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true # tira os espaços em branco no final da linha
+insert_final_newline = true # insere sempre uma linha em branco ao final do código

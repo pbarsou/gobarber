@@ -1,0 +1,41 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "class-methods-use-this": "off", // para impedir que fique apontando erros quando não se usa o 'this' na criação de migrations
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      /*"node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },*/
+      "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
+    }
+  }
+}
+
