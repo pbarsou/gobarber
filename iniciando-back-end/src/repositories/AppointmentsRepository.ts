@@ -1,35 +1,24 @@
 // arquivo de métodos do appointment
 
-import { isEqual } from 'date-fns';
+import { EntityRepository, Repository } from 'typeorm';
 import Appointment from '../models/Appointment';
 
-interface CreateAppointmentDTO {
-  provider: string;
-  date: Date;
-}
+@EntityRepository(Appointment) // 'EntityRepository' recebendo o nosso model
+class AppointmentsRepository extends Repository<Appointment> {
+  /* nosso repositório estende 'Repository', que é uma interface fornecida pelo typeORM que contém uma
+  série de métodos já prontos para serem usados, e entre '<>'informamos o model do nosso repositório */
 
-class AppointmentsRepository {
-  private appointments: Appointment[];
+  public async findByDate(date: Date): Promise<Appointment | null> {
+    /* como estamos usando 'async' é necessário que o retorno seja uma promise. Como parâmetro da
+    promise, passamos o tipo de retorno que teremos ao ela ser finalizada (um appointment ou vazio) */
+    /* o nosso método 'findByDate' irá procurar se existe algum 'Appointment' já registrado para
+    certa data */
 
-  constructor() {
-    this.appointments = [];
-  }
-
-  public create({ provider, date }: CreateAppointmentDTO): Appointment {
-    const appointment = new Appointment({ provider, date });
-    this.appointments.push(appointment);
-    return appointment;
-  }
-
-  public findByDate(date: Date): Appointment | null {
-    const findAppointment = this.appointments.find(appointment =>
-      isEqual(appointment.date, date),
-    );
+    const findAppointment = await this.findOne({
+      // 'this' indicando que é dentro da classe 'AppointmentsRepository'
+      where: { date }, // onde 'date = date'
+    });
     return findAppointment || null;
-  }
-
-  public all(): Appointment[] {
-    return this.appointments;
   }
 }
 

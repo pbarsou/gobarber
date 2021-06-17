@@ -1,36 +1,39 @@
 // arquivo de criação de um appointment
 
 import { startOfHour } from 'date-fns';
+import { getCustomRepository } from 'typeorm'; /* para termos acesso a todos os métodos do nosso
+repositório */
 import Appointment from '../models/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
-interface RequestDTO {
+interface Request {
   provider: string;
   date: Date;
 }
 
 class CreateAppointmentService {
-  private appointmentsRepository: AppointmentsRepository;
+  public async execute({ date, provider }: Request): Promise<Appointment> {
+    const appointmentsRepository = getCustomRepository(AppointmentsRepository);
+    // armazenando nosso 'AppointmentsRepository' numa variável
 
-  constructor(appointmentsRepository: AppointmentsRepository) {
-    this.appointmentsRepository = appointmentsRepository;
-  }
-
-  public execute({ date, provider }: RequestDTO): Appointment {
     const appointmentDate = startOfHour(date);
     // 'startOfHour()' transforma a data/horário para o fuso horário local
 
-    const findAppointmentInSameDate =
-      this.appointmentsRepository.findByDate(appointmentDate);
+    const findAppointmentInSameDate = await appointmentsRepository.findByDate(
+      appointmentDate,
+    ); // pegando appointment de mesma data e atribuindo a 'findAppointmentInSameDate'
 
     if (findAppointmentInSameDate) {
-      throw Error('This time is already booked.');
+      // se existir algo em 'findAppointmentInSameDate' (true), se null (false)
+      throw Error('This appointment is already booked');
     }
 
-    const appointment = this.appointmentsRepository.create({
+    const appointment = appointmentsRepository.create({
       provider,
       date: appointmentDate,
-    });
+    }); // criação do appointment
+
+    await appointmentsRepository.save(appointment); // salvando ele no repositório
 
     return appointment;
   }
