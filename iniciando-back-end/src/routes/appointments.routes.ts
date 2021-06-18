@@ -5,9 +5,9 @@ import { getCustomRepository } from 'typeorm';
 import { parseISO } from 'date-fns';
 
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
-import CreateAppointmentService from './CreateAppointmentService';
+import CreateAppointmentService from '../services/CreateAppointmentService';
 
-const appointmentsRouter = Router();
+const appointmentsRouter = Router(); // para que possamos usar os métodos do 'Router'
 
 // Rota GET
 appointmentsRouter.get('/', async (request, response) => {
@@ -22,7 +22,7 @@ appointmentsRouter.get('/', async (request, response) => {
 // Rota POST
 appointmentsRouter.post('/', async (request, response) => {
   try {
-    const { provider, date } = request.body;
+    const { provider_id, date } = request.body;
 
     const parsedDate = parseISO(date); // 'parseISO()' formata uma string para data
 
@@ -30,7 +30,7 @@ appointmentsRouter.post('/', async (request, response) => {
     // criando uma instância de 'CreateAppointmentService'
     const appointment = await createAppointment.execute({
       date: parsedDate,
-      provider,
+      provider_id,
     }); // realizando a criação do appointment
 
     return response.json(appointment);
