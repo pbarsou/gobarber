@@ -20,7 +20,7 @@
   ],
   "rules": {
     "prettier/prettier": "error",
-    "@typescript-eslint/camelcase": "off", // para evitar que fique dando error de CamelCase
+    "camelcase": "off", // para evitar que fique dando error de CamelCase
     "class-methods-use-this": "off", // para impedir que fique apontando erros quando não se usa o 'this' na criação de migrations
     "import/extensions": [
       "error",

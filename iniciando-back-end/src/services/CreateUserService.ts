@@ -12,6 +12,7 @@ interface Request {
 class CreateUserService {
   public async execute({ name, email, password }: Request): Promise<User> {
     const usersRepository = getRepository(User);
+    // criando uma instância do repositório padrão do typeORM
 
     const checkUserExists = await usersRepository.findOne({ where: { email } });
     // checando se já existe algum usuário com o mesmo email no banco

@@ -18,8 +18,8 @@ usersRouter.post('/', async (request, response) => {
     });
 
     return response.json(
-      UserViews.render(user),
-    ); /* para que não seja retornada a senha na respostada requisição */
+      UserViews.renderCreateUser(user),
+    ); /* para que não seja retornada a senha na resposta da requisição */
   } catch (err) {
     return response.status(400).json({ Error: err.message });
   }
