@@ -11,12 +11,15 @@ sessionRouter.post('/', async (request, response) => {
 
     const authenticateUser = new AuthenticateUserService();
 
-    const { user } = await authenticateUser.execute({
+    const { user, token } = await authenticateUser.execute({
       email,
       password,
     });
 
-    return response.json({ user: UserViews.renderAuthenticateUser(user) });
+    return response.json({
+      user: UserViews.renderAuthenticateUser(user),
+      token,
+    });
     /* para que não seja retornada a senha na resposta da requisição */
   } catch (err) {
     return response.status(400).json({ error: err.message });
