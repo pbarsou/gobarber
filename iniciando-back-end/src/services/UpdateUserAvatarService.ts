@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import User from '../models/User';
 import uploadConfig from '../config/upload';
+import AppError from '../errors/AppError';
 
 interface Request {
   user_id: string;
@@ -18,7 +19,8 @@ class UpdateUserAvatarService {
     // procura se existe um usuário com o id passado por parâmetro (id conseguido no token)
 
     if (!user) {
-      throw new Error('Only authenticated users can change avatar.');
+      throw new AppError('Only authenticated users can change avatar.', 401);
+      // erro 401, de não autorizado
     }
     // console.log(user.avatar);
     if (user.avatar) {

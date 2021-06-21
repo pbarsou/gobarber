@@ -22,6 +22,9 @@
     "prettier/prettier": "error",
     "camelcase": "off", // para evitar que fique dando error de CamelCase
     "class-methods-use-this": "off", // para impedir que fique apontando erros quando não se usa o 'this' na criação de migrations
+    "@typescript-eslint/no-unused-vars": ["error", { // para usarmos '_' como nome de parâmetros que são por vezes obrigatórios num método, mas que não iremos utilizar
+      "argsIgnorePattern": "_"
+    }],
     "import/extensions": [
       "error",
       "ignorePackages",

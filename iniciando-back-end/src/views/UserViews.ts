@@ -11,6 +11,7 @@ interface ViewAuthenticateUser {
   id: string;
   name: string;
   email: string;
+  avatar: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -27,8 +28,9 @@ export default {
     // view para 'AuthenticateUser'
     return {
       id: user.id,
-      email: user.email,
       name: user.name,
+      email: user.email,
+      avatar: user.avatar,
       created_at: user.created_at,
       updated_at: user.updated_at,
     };

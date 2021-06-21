@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken'; // assinatura
 import authConfig from '../config/auth';
+import AppError from '../errors/AppError';
 
 import User from '../models/User';
 
@@ -24,14 +25,16 @@ class AuthenticateUserService {
     // checando se existe algum usuário com o email informado na base de dados
 
     if (!user) {
-      throw new Error('Incorrect email/password combination.');
+      throw new AppError('Incorrect email/password combination.', 401);
+      // erro 401, de não autorizado
     }
 
     const passwordMatched = await compare(password, user.password);
     // compara pra gente a senha não criptografada, com a senha criptografada em nosso banco
 
     if (!passwordMatched) {
-      throw new Error('Incorrect email/password combination.');
+      throw new AppError('Incorrect email/password combination.', 401);
+      // erro 401, de não autorizado
     }
 
     const { secret, expiresIn } = authConfig.jwt;
